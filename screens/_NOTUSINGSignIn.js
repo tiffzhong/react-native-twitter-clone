@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, View, Text, StyleSheet, Dimensions } from "react-native";
 import GenericTextInput from "../components/GenericTextInput/index";
+import { red } from "ansi-colors";
 
 class SignIn extends React.Component {
    constructor(props) {
@@ -13,6 +14,17 @@ class SignIn extends React.Component {
       };
    }
 
+   toggleFocusName = () => {
+      this.setState({
+         nameFocus: !this.state.toggleFocusName
+      });
+   };
+   togglePhoneEmailFocus = () => {
+      this.setState({
+         phoneEmailFocus: !this.state.phoneEmailFocus
+      });
+   };
+
    render() {
       const { name, phoneEmail, nameFocus, phoneEmailFocus } = this.state;
       return (
@@ -21,8 +33,18 @@ class SignIn extends React.Component {
                <Text style={styles.title}>Create your account</Text>
             </ScrollView>
             <View style={styles.input}>
-               <GenericTextInput placeholder="Name" maxLength={50} />
-               <GenericTextInput placeholder="Phone number or email address" />
+               <GenericTextInput
+                  onFocus={this.toggleFocusName}
+                  placeholder="Name"
+                  onFocusplaceholder="Name"
+                  maxLength={50}
+                  style={nameFocus ? styles.inputFocus : null}
+               />
+               <GenericTextInput
+                  onFocus={this.togglePhoneEmailFocus}
+                  placeholder="Phone number or email address"
+                  style={phoneEmailFocus ? styles.inputFocus : null}
+               />
             </View>
          </View>
       );
@@ -34,8 +56,8 @@ const width = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
    input: {
-      borderBottomColor: "#1DA1F2",
-      alignSelf: "stretch",
+      // borderBottomColor: "#1DA1F2",
+      // alignSelf: "stretch",
       flex: 2
       // justifyContent: "center",
       // alignItems: "center"
@@ -53,9 +75,11 @@ const styles = StyleSheet.create({
    },
    inputFocus: {
       borderBottomWidth: 1,
+      backgroundColor: "red",
       borderBottomColor: "#1DA1F2",
-      alignSelf: "stretch",
-      flex: 2
+      // alignSelf: "stretch",
+      height: 45,
+      width: 350
    }
 });
 
