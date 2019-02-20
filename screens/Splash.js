@@ -1,7 +1,6 @@
 import React from "react";
 import { AuthSession } from "expo";
-import Button from "../components/Button";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { colors } from "../config/styles";
 import jwtDecoder from "jwt-decode";
 import axios from "axios";
@@ -45,15 +44,16 @@ class Splash extends React.Component {
 
    _loginWithAuth0Twitter = async () => {
       const redirectUrl = AuthSession.getRedirectUrl();
+      // console.log("loginwithauth0twitter is running");
       const result = await AuthSession.startAsync({
          authUrl:
             `https://samrosenthal.auth0.com/authorize?response_type=token` +
             `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
             `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-            `&scope=openid%20name%20picture` +
-            `&connection=twitter`
+            `&scope=openid`
       });
 
+      // console.log(result, "____________result____________");
       if (result.type === "success") {
          console.log("if success is running", result);
          this.handleParams(result);
@@ -65,7 +65,7 @@ class Splash extends React.Component {
          console.log(responseObj);
          return;
       }
-
+      // console.log(responseObj, "___________look at me ______________-");
       axios
          .get(
             `https://samrosenthal.auth0.com/userinfo?access_token=${
@@ -96,13 +96,10 @@ class Splash extends React.Component {
             <Text style={styles.main}>
                See what's happening in the world right now.
             </Text>
-            <Button text="Login" onPress={this._loginWithAuth0Twitter} />
+            <Button title="Login" onPress={this._loginWithAuth0Twitter} />
+            {/* <Text style={styles.bottomText}>Have an account already? Log in</Text> */}
          </View>
       );
    }
 }
-// Splash.propTypes = {
-//   navigation: React.PropTypes.object
-// };
-
 export default Splash;
