@@ -44,18 +44,19 @@ class Splash extends React.Component {
 
    _loginWithAuth0Twitter = async () => {
       const redirectUrl = AuthSession.getRedirectUrl();
+      console.log(encodeURIComponent(redirectUrl));
       // console.log("loginwithauth0twitter is running");
       const result = await AuthSession.startAsync({
          authUrl:
             `https://samrosenthal.auth0.com/authorize?response_type=token` +
             `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
             `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-            `&scope=openid`
+            `&scope=openid%20profile`
       });
 
       // console.log(result, "____________result____________");
       if (result.type === "success") {
-         console.log("if success is running", result);
+         // console.log("if success is running", result);
          this.handleParams(result);
       }
    };
