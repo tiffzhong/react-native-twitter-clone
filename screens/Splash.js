@@ -1,7 +1,6 @@
 import React from "react";
 import { AuthSession } from "expo";
-import Button from "../components/Button";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { colors } from "../config/styles";
 import jwtDecoder from "jwt-decode";
 import axios from "axios";
@@ -74,7 +73,7 @@ class Splash extends React.Component {
         }`
       )
       .then(response => {
-        // console.log("response from fetch", response.data);
+        console.log("response from fetch", response.data);
         // const encodedToken = response.id_token;
         // const decodedToken = jwtDecoder(encodedToken);
         // const username = decodedToken.name;
@@ -96,7 +95,7 @@ class Splash extends React.Component {
         <Text style={styles.main}>
           See what's happening in the world right now.
         </Text>
-        <Button text="Login" onPress={this._loginWithAuth0Twitter} />
+        <Button title="Login" onPress={this._loginWithAuth0Twitter} />
         {/* <Text style={styles.bottomText}>Have an account already? Log in</Text> */}
       </View>
     );

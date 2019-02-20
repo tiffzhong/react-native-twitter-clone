@@ -1,3 +1,5 @@
+import React from "react";
+import { Ionicons } from "@expo/vector-icons";
 import {
   createAppContainer,
   createStackNavigator,
@@ -30,10 +32,11 @@ const DMStack = createStackNavigator({
   PostTweet: { screen: PostTweet }
 });
 // const AppContainer = createAppContainer(SplashStack);
-
+// export default createAppContainer(AppContainer);
 export default createAppContainer(
   createBottomTabNavigator(
     {
+      Splash: { screen: SplashStack },
       Dashboard: { screen: DashboardStack },
       Search: { screen: SearchStack },
       DirectMessages: { screen: DMStack }
@@ -44,10 +47,19 @@ export default createAppContainer(
           const { routeName } = navigation.state;
           let iconName;
           if (routeName === "Dashboard") {
-            iconName = `ios-information `;
+            iconName = `md-star`;
+          } else if (routeName === "Search") {
+            iconName = `md-leaf`;
+          } else if (routeName === "DirectMessages") {
+            iconName = `ios-baseball`;
           }
+          return <Ionicons name={iconName} size={25} color={tintColor} />;
         }
-      })
+      }),
+      tabBarOptions: {
+        activeTintColor: "blue",
+        inactiveTintColor: "grey"
+      }
     }
   )
 );
