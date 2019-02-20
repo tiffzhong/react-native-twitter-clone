@@ -1,8 +1,8 @@
 import React from "react";
 import { AuthSession } from "expo";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button, Login } from "react-native";
 import { colors } from "../config/styles";
-import jwtDecoder from "jwt-decode";
+
 import axios from "axios";
 // import { AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID } from "react-native-dotenv";
 // ApiClient.init(AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID);
@@ -50,7 +50,7 @@ class Splash extends React.Component {
         `https://samrosenthal.auth0.com/authorize?response_type=token` +
         `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
         `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-        `&scope=openid`
+        `&scope=openid%20profile`
     });
 
     // console.log(result, "____________result____________");
@@ -77,7 +77,7 @@ class Splash extends React.Component {
         // const encodedToken = response.id_token;
         // const decodedToken = jwtDecoder(encodedToken);
         // const username = decodedToken.name;
-        // this.setState({ username });
+        this.setState({ username: response.data });
       })
       .catch(e => {
         console.log(e, "error from axios get");
