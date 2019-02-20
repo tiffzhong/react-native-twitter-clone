@@ -1,6 +1,5 @@
 import React from "react";
-import Button from "../components/Button";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { colors } from "../config/styles";
 
 const styles = StyleSheet.create({
@@ -27,6 +26,19 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginBottom: 20
+  },
+  button: {
+    paddingVertical: 10,
+    backgroundColor: colors.buttonBackground,
+    borderRadius: 100,
+    width: 350,
+    marginTop: 30
+  },
+  buttonText: {
+    color: colors.buttonText,
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: "bold"
   }
 });
 
@@ -41,19 +53,14 @@ class Splash extends React.Component {
         <Text style={styles.main}>
           See what's happening in the world right now.
         </Text>
-        <Button
-          text="Login"
-          onPress={() => {
-            props.navigation.navigate("SignIn");
-          }}
-        />
-        {/* <Text style={styles.bottomText}>Have an account already? Log in</Text> */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => this.props.navigation.navigate("Dashboard")}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
-// Splash.propTypes = {
-//   navigation: React.PropTypes.object
-// };
-
 export default Splash;
