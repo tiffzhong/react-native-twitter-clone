@@ -3,6 +3,8 @@ import { AuthSession } from "expo";
 import Button from "../components/Button";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { colors } from "../config/styles";
+import jwtDecoder from "jwt-decode";
+import axios from "axios";
 // import { AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID } from "react-native-dotenv";
 // ApiClient.init(AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID);
 
@@ -33,21 +35,6 @@ const styles = StyleSheet.create({
    }
 });
 
-const auth0ClientId = "16123618";
-const auth0Domain = "samrosenthal.auth0.com";
-
-function toQueryString(params) {
-   return (
-      "?" +
-      Object.entries(params)
-         .map(
-            ([key, value]) =>
-               `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-         )
-         .join("&")
-   );
-}
-
 class Splash extends React.Component {
    constructor(props) {
       super(props);
@@ -58,40 +45,44 @@ class Splash extends React.Component {
 
    _loginWithAuth0Twitter = async () => {
       const redirectUrl = AuthSession.getRedirectUrl();
-      console.log("loginwithauth0twitter is running");
+      // console.log("loginwithauth0twitter is running");
       const result = await AuthSession.startAsync({
          authUrl:
-            `${auth0Domain}/authorize` +
-            toQueryString({
-               connection: "twitter",
-               client_id: auth0ClientId,
-               response_type: "token",
-               scope: "openid name",
-               redirect_uri: encodeURIComponent(redirectUrl)
-            })
+            `https://samrosenthal.auth0.com/authorize?response_type=token` +
+            `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
+            `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
+            `&scope=openid`
       });
 
-      console.log(result, "____________result____________");
+      // console.log(result, "____________result____________");
       if (result.type === "success") {
-         console.log("if success is running");
-         this.handleParams(result.params);
+         console.log("if success is running", result);
+         this.handleParams(result);
       }
    };
 
    handleParams = responseObj => {
-      console.log("handle params is running");
       if (responseObj.error) {
-         Alert.alert(
-            "Error",
-            responseObj.error_description ||
-               "something went wrong while logging in"
-         );
+         console.log(responseObj);
          return;
       }
-      const encodedToken = responseObj.id_token;
-      const decodedToken = jwtDecoder(encodedToken);
-      const username = decodedToken.name;
-      this.setState({ username });
+      // console.log(responseObj, "___________look at me ______________-");
+      axios
+         .get(
+            `https://samrosenthal.auth0.com/userinfo?access_token=${
+               responseObj.params.access_token
+            }`
+         )
+         .then(response => {
+            // console.log("response from fetch", response.data);
+            // const encodedToken = response.id_token;
+            // const decodedToken = jwtDecoder(encodedToken);
+            // const username = decodedToken.name;
+            // this.setState({ username });
+         })
+         .catch(e => {
+            console.log(e, "error from axios get");
+         });
    };
 
    render() {
@@ -99,6 +90,7 @@ class Splash extends React.Component {
          uri:
             "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png"
       };
+      console.log(this.state);
       return (
          <View style={styles.container}>
             <Image source={logo} style={styles.logoImg} />
