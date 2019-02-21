@@ -2,10 +2,9 @@ import React from "react";
 import { AuthSession } from "expo";
 import { StyleSheet, Text, View, Image, Button, Login } from "react-native";
 import { colors } from "../config/styles";
-
+import { connect } from "react-redux";
+import { setAccessCode } from "../dux/reducer";
 import axios from "axios";
-// import { AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID } from "react-native-dotenv";
-// ApiClient.init(AUTH_CLIENT_DOMAIN, AUTH_CLIENT_ID);
 
 const styles = StyleSheet.create({
    container: {
@@ -42,22 +41,8 @@ class Splash extends React.Component {
       };
    }
 
-<<<<<<< HEAD
-  _loginWithAuth0Twitter = async () => {
-    const redirectUrl = AuthSession.getRedirectUrl();
-    // console.log("loginwithauth0twitter is running");
-    const result = await AuthSession.startAsync({
-      authUrl:
-        `https://samrosenthal.auth0.com/authorize?response_type=token` +
-        `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-        `&scope=openid%20profile`
-    });
-=======
    _loginWithAuth0Twitter = async () => {
       const redirectUrl = AuthSession.getRedirectUrl();
-      console.log(encodeURIComponent(redirectUrl));
-      // console.log("loginwithauth0twitter is running");
       const result = await AuthSession.startAsync({
          authUrl:
             `https://samrosenthal.auth0.com/authorize?response_type=token` +
@@ -65,46 +50,19 @@ class Splash extends React.Component {
             `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
             `&scope=openid%20profile`
       });
->>>>>>> 90e841701e9755dd15414ca428c25d1bb0789b04
 
-      // console.log(result, "____________result____________");
       if (result.type === "success") {
-         // console.log("if success is running", result);
          this.handleParams(result);
       }
    };
 
-<<<<<<< HEAD
-  handleParams = responseObj => {
-    if (responseObj.error) {
-      console.log(responseObj);
-      return;
-    }
-    // console.log(responseObj, "___________look at me ______________-");
-    axios
-      .get(
-        `https://samrosenthal.auth0.com/userinfo?access_token=${
-          responseObj.params.access_token
-        }`
-      )
-      .then(response => {
-        console.log("response from fetch", response.data);
-        // const encodedToken = response.id_token;
-        // const decodedToken = jwtDecoder(encodedToken);
-        // const username = decodedToken.name;
-        this.setState({ username: response.data });
-      })
-      .catch(e => {
-        console.log(e, "error from axios get");
-      });
-  };
-=======
    handleParams = responseObj => {
       if (responseObj.error) {
          console.log(responseObj);
          return;
       }
-      // console.log(responseObj, "___________look at me ______________-");
+
+      // have to save this access token in redux so a user can modify their profile. ---responseObj.params.access_token
       axios
          .get(
             `https://samrosenthal.auth0.com/userinfo?access_token=${
@@ -112,24 +70,25 @@ class Splash extends React.Component {
             }`
          )
          .then(response => {
-            console.log("response from fetch", response.data);
-            // const encodedToken = response.id_token;
-            // const decodedToken = jwtDecoder(encodedToken);
-            // const username = decodedToken.name;
-            // this.setState({ username });
+            // console.log("response from fetch", response.data);
+            this.props.setAccessCode(responseObj.params.access_token);
+            this.setState({
+               access_code: responseObj.params.access_token,
+               username: response.data.name
+            });
          })
          .catch(e => {
             console.log(e, "error from axios get");
          });
    };
->>>>>>> 90e841701e9755dd15414ca428c25d1bb0789b04
 
    render() {
       let logo = {
          uri:
             "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png"
       };
-      console.log(this.state);
+      // console.log(this.state);
+      // console.log(this.props);
       return (
          <View style={styles.container}>
             <Image source={logo} style={styles.logoImg} />
@@ -142,4 +101,17 @@ class Splash extends React.Component {
       );
    }
 }
-export default Splash;
+const mapStateToProps = state => {
+   return {
+      access_code: state.access_code
+   };
+};
+
+const mapDispatchToProps = {
+   setAccessCode
+};
+
+export default connect(
+   mapStateToProps,
+   mapDispatchToProps
+)(Splash);
