@@ -42,21 +42,8 @@ class Splash extends React.Component {
       };
    }
 
-<<<<<<< HEAD
-  _loginWithAuth0Twitter = async () => {
-    const redirectUrl = AuthSession.getRedirectUrl();
-    // console.log("loginwithauth0twitter is running");
-    const result = await AuthSession.startAsync({
-      authUrl:
-        `https://samrosenthal.auth0.com/authorize?response_type=token` +
-        `&client_id=r1HvDIE2AYd2osIBSAjibUnRSj25N4Nu` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-        `&scope=openid%20profile`
-    });
-=======
    _loginWithAuth0Twitter = async () => {
       const redirectUrl = AuthSession.getRedirectUrl();
-      console.log(encodeURIComponent(redirectUrl));
       // console.log("loginwithauth0twitter is running");
       const result = await AuthSession.startAsync({
          authUrl:
@@ -65,7 +52,6 @@ class Splash extends React.Component {
             `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
             `&scope=openid%20profile`
       });
->>>>>>> 90e841701e9755dd15414ca428c25d1bb0789b04
 
       // console.log(result, "____________result____________");
       if (result.type === "success") {
@@ -74,31 +60,6 @@ class Splash extends React.Component {
       }
    };
 
-<<<<<<< HEAD
-  handleParams = responseObj => {
-    if (responseObj.error) {
-      console.log(responseObj);
-      return;
-    }
-    // console.log(responseObj, "___________look at me ______________-");
-    axios
-      .get(
-        `https://samrosenthal.auth0.com/userinfo?access_token=${
-          responseObj.params.access_token
-        }`
-      )
-      .then(response => {
-        console.log("response from fetch", response.data);
-        // const encodedToken = response.id_token;
-        // const decodedToken = jwtDecoder(encodedToken);
-        // const username = decodedToken.name;
-        this.setState({ username: response.data });
-      })
-      .catch(e => {
-        console.log(e, "error from axios get");
-      });
-  };
-=======
    handleParams = responseObj => {
       if (responseObj.error) {
          console.log(responseObj);
@@ -116,13 +77,12 @@ class Splash extends React.Component {
             // const encodedToken = response.id_token;
             // const decodedToken = jwtDecoder(encodedToken);
             // const username = decodedToken.name;
-            // this.setState({ username });
+            this.setState({ username: response.data });
          })
          .catch(e => {
             console.log(e, "error from axios get");
          });
    };
->>>>>>> 90e841701e9755dd15414ca428c25d1bb0789b04
 
    render() {
       let logo = {
