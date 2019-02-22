@@ -13,10 +13,15 @@ import PostTweet from "./screens/PostTweet";
 import Search from "./screens/Search";
 import DirectMessages from "./screens/DirectMessages";
 
-const SplashStack = createStackNavigator({
-  Splash: { screen: Splash },
-  Dashboard: { screen: Dashboard }
-});
+const SplashStack = createStackNavigator(
+  {
+    Splash: { screen: Splash },
+    Dashboard: { screen: Dashboard }
+  },
+  {
+    headerMode: "none"
+  }
+);
 
 const DashboardStack = createStackNavigator({
   Dashboard: { screen: Dashboard },
