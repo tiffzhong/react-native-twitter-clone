@@ -6,10 +6,7 @@ class Dashboard extends React.Component {
     return (
       <View style={styles.container}>
         <Text>This is the dashboard</Text>
-        <Button
-          title="Splash"
-          onPress={() => this.props.navigation.navigate("Splash")}
-        />
+
         <Button
           title="Post A Tweet"
           onPress={() => this.props.navigation.navigate("PostTweet")}
