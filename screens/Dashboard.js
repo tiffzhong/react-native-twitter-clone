@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
-
+import { connect } from "react-redux";
 class Dashboard extends React.Component {
   render() {
     return (
@@ -22,4 +22,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 });
-export default Dashboard;
+
+const mapStateToProps = state => {
+  const { dashboard } = state;
+  return { dashboard };
+};
+export default connect(mapStateToProps)(Dashboard);
