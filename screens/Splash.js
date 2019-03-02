@@ -3,7 +3,7 @@ import { AuthSession } from "expo";
 import { StyleSheet, Text, View, Image, Button, Login } from "react-native";
 import { colors } from "../config/styles";
 import { connect } from "react-redux";
-import { setAccessCode } from "../dux/reducer";
+import { setAccessCode } from "../dux/DashboardReducer";
 import axios from "axios";
 
 const styles = StyleSheet.create({

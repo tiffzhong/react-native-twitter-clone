@@ -1,18 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppNavigator from "./AppNavigator";
-import reducer from "./dux/reducer";
+import DashboardReducer from "./dux/DashboardReducer";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 
-const store = createStore(applyMiddleware(reducer));
+const store = createStore(DashboardReducer);
 
 export default class App extends React.Component {
-   render() {
-      return (
-         <Provider store={store}>
-            <AppNavigator />
-         </Provider>
-      );
-   }
+  render() {
+    return (
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    );
+  }
 }
